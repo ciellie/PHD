@@ -1,0 +1,4 @@
+grep "T= " OSICAR_3 | awk '{print$1+2000","$5}' >> T_E.csv 
+
+>> is for append 
++2000 is the step count

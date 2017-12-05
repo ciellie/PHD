@@ -1,0 +1,22 @@
+#!/bin/bash
+#PBS -P CHEM0778
+#PBS -N oppv-400
+#PBS -l select=10:ncpus=24:mpiprocs=24
+#PBS -l place=excl
+#PBS -l walltime=48:00:00
+#PBS -q normal
+#PBS -m be
+#PBS -M ciellie.jansenvanvuuren@nwu.ac.za
+#PBS -o /mnt/lustre/users/cvanvuuren/vlak3/vlak3_output
+#PBS -e /mnt/lustre/users/cvanvuuren/vlak3/vlak3_error
+#PBS
+
+module purge
+module add chpc/parallel_studio_xe/17.0/2017.0.035
+module add chpc/vasp/5.3/parallel_studio/2017
+ulimit -s unlimited
+
+pushd /mnt/lustre/users/cvanvuuren/vlak3
+exe=vasp
+mpiexec.hydra -np 240 -machinefile $PBS_NODEFILE $exe
+popd

@@ -1,0 +1,39 @@
+# SCF input for VASP
+# Note that VASP uses the FIRST occurence of a keyword
+# Extra input added by hand
+NGXF=98; NGYF=98; NGZF=108 #sets the number of grid points in the "fine" FFT-grid along the first lattice vector. Set NGX,NGY,NGZ with values 
+#3X3X3 supercell SiO2 = NGXF=98; NGYF=98; NGZF=108;
+ICHARG = 2 #!0 charge from initial wave functions, 1 read CHGCAR, +10 non self-consistent
+
+#Parralisation values over 64 cores
+NCORE  = 8
+NPAR   = 8 #sqrt(number of cores)
+KPAR   = 2 # #of cores/KPAR(group of kpoints) (64/40(groepe van 164kpoints)) = 1.6 It will resolve in 2 compute cores working together on an individual k-point (3X3X3(81*2+81))/40
+
+# End of extra input
+
+SYSTEM = (Si O2)81  (P1) ~ 3x3x3Supersel (VASP)
+
+
+PREC = Normal
+ENCUT = 400 
+ALGO = Fast 
+LREAL = Auto 
+ISMEAR = 0 
+
+#! Gaussian smearing ! Symmetry off DOS settings
+SIGMA = 0.05 
+ISYM = 0
+
+
+#! MD
+IBRION = 0 #For MD set IBRION = 0
+POTIM = 0.5  #Time stamp = 0.5 fs
+NSW = 1000    #Maximun number of ionic steps Also set NELM and NELMIN 
+TEBEG = 4000  #Begin temperature
+TEEND = 4000  #End temperature  If TEBEG = TEEND then NVT Energy will be changable
+SMASS = 0 #Controls the velosities during a MD run Choose thermostat etc 0 = NOSE. Set SMASS = -1 if TEEND differs
+
+#Do not write Wave and Charge files F= false
+LWAVE = F
+LCHARG = F

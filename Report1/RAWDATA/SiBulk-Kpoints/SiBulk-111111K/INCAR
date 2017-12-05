@@ -1,0 +1,37 @@
+# SCF input for VASP
+# Note that VASP uses the FIRST occurence of a keyword
+SYSTEM = (Si O2)81  (P1) ~ Ciellie_MCM41 (MD #12)_3x3x3 BULK (VASP)
+
+#Parralisation values over 64 cores
+ NCORE  = 8
+ NPAR   = 8 #sqrt(number of cores)
+ KPAR   = 2 # #of cores/KPAR(group of kpoints) (64/40(groepe van 164kpoints)) = 1.6 It will resolve in 2 compute cores working together on an individual k-point (3X3X3(81*2+81))/40
+
+# Extra input added by hand
+ NGXF=98; NGYF=98; NGZF=108 #sets the number of grid points in the "fine" FFT-grid along the first lattice vector. Set NGX,NGY,NGZ with values 
+ ICHARG = 2 #!0 charge from initial wave functions, 1 read CHGCAR, +10 non self-consistent
+#
+ #Parralisation values over 64 cores
+ NCORE  = 8
+ NPAR   = 8 #sqrt(number of cores)
+ KPAR   = 2 # #of cores/KPAR(group of kpoints) (64/40(groepe van 164kpoints)) = 1.6 It will resolve in 2 compute cores working together on an individual k-point (3X3X3(81*2+81))/40
+
+ PREC = Accurate #accurate Def: normal,accurate set for Single point
+ #GGA = PE #This is the correlation function used  
+
+ #Ionic Relaxation
+ ENCUT = 400.000
+ EDIFF = 1.0e-05
+ LREAL = Auto
+ ALGO = Normal (blocked Davidson)
+ ISMEAR = 0
+ SIGMA = 0.05
+ #NSW=100 #(number of steps of IOM ( deactivate for SpinPolerised calculations)
+ ISIF=2 #Stress and elaxation, Def 2 (only ions), 4 (ions and cell shape)
+ IBRION=-1 #Ionic relax Def=2: (NSW=0 or -1): not moved: -1 MD =0 
+ NELMIN = 2 # minimum number of electronic SC steps, optinum value is between 4 and 8 ( activate wher IBRION=1)
+
+ #Do not write Wave and Charge files F= false
+ LWAVE = .FALSE.
+ LCHARG = .FALSE.
+#
