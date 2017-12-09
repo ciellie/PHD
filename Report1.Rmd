@@ -1,0 +1,45 @@
+---
+title: "A DFT study to development a SiO2 mesoporous surface model"
+author: "Ciellie Jansen van Vuuren"
+date: "12/6/2017"
+output: html_document
+bibliography: library.bib
+csl: oxford-university-press-scimed-numeric.csl
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Introduction
+
+Grubbs catalysts for alkene metathesis have a vast range of advantages, but the fact that these catalysts are homogeneous makes extraction of the catalyst from the post-reaction mixtures very difficult. Because of cost implications, the re-use of the catalyst became very important [1].[@RN33]
+
+A heterogeneous catalyst can be a solution to the above-mentioned issue. In general, the activity and selectivity of heterogeneous catalysts are lower than homogeneous catalysts, but the advantage of separation, recovery and recycling outweigh these shortcomings.
+
+According to literature mesoporous support materials, are ideal heterogeneous support materials [2,3]. In this study, we decided to focus on the SBA-15 and MCM-41 mesoporous support material.
+
+The first step in modelling a SBA-15 or MCM-41 mesoporous surface is to create an amorphous SiO2 bulk using an alpha-quartz (space group 180). The 3X3X3 supercell was submitted to dynamics studies using Materials Studio's CASTEP module and VASP 5.3 [4,5]. This was done and I will discuss the procedure that I followed to accomplish this.
+
+To do surface calculations it became very difficult, using the amorphous SiO2 bulk. We decide to use a crystalline 3X3X3 SiO2 bulk, using VASP 5.3. An Ab Initio Molecular Dynamics study will be done on all surfaces using VASP 5.3. A comparison between the amorphous and crystalline surfaces will be discussed
+
+#Experimental work 2017
+
+###1. Amorphous SiO~2~ Bulk
+###2. K-point energy convergence
+###3. Determine surface energies
+   + This tutorials show the basic principals for calculating surface characteristics [@surf1] [@surf2]
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
