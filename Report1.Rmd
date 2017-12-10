@@ -1,10 +1,12 @@
 ---
 title: "A DFT study to development a SiO2 mesoporous surface model"
 author: "Ciellie Jansen van Vuuren"
-date: "12/6/2017"
-output: html_document
-bibliography: library.bib
+date: "6/12/2017"
+output:
+  html_document: default
+  word_document: default
 csl: oxford-university-press-scimed-numeric.csl
+bibliography: library.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -26,20 +28,74 @@ To do surface calculations it became very difficult, using the amorphous SiO2 bu
 #Experimental work 2017
 
 ###1. Amorphous SiO~2~ Bulk
+#### Method:
+A 3x3x3 alpha-quartz, spacegroup 180, super-cell was built in the Materials Studio
+software package.
+
+1. The annealing process of the alpha-quartz to obtain an amorphous solid was
+simulated using the CASTEP dynamic study module of the Materials Studio
+software package.
+
+2. The bulk was heated to 4000, 5000 and 6000K in 50, 100 and 150 steps of 1fs
+each. After the heating step, the bulk was quenched to 1K in two 1fs steps.
+
+3.  Each resulting structure was again heated to 1000K in the same number of steps
+as in the first heating step and finally cooled down to 300K in the same number
+of steps.
+
+The resulting structures (Figure 2) was each submitted to a DFT calculation to
+determine various indicating properties. The calculated and measured properties
+included:
+
+ + Energy
+ 
+ + Bond Angles
+ 
+ + Density of states
+ 
+ + Band Gap
+ 
+#### Results
+```{r step_energy, echo=FALSE}
+Sys.setenv(TZ="Africa/Johannesburg")
+
+library(ggplot2)
+
+E_step <- readxl::read_excel("Report1/DATA/Aneal_energies.xlsx")
+
+mdata <- reshape2::melt(E_step, id.vars="Step", 
+                      measure.vars=c("Melting", "Quenching","Anealing","Cooling"))
+#Her organiseer die tabel om die plot te trek trek uit E_step id is die groep en dan die res wat gemeet word
+#Kyk na mdata en doen dat die graviek onthou vir lyn moet daar 'n groep wees en die kleur Hierdie is slegs nodig vir baie lyne op een grafiek
+ 
+ ggplot(data =  mdata, aes(x = variable, y = value, group=Step, color=Step)) + geom_line() + 
+  labs(title = "Energy per Anealing step", x = "Method", y = "Energy") + theme_bw() +
+  theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 90, hjust = 0.5, vjust = 0.5),
+        axis.text.y = element_text(colour = "grey20", size = 12),
+        text = element_text(size = 11))
+  
+```
+
+Table acording literature
+
+```{r table-lit, echo=FALSE}
+library(knitr)
+library(kableExtra)
+dt <- E_step[1:10, 1:6] #rye 1 tot 10 en kolomme 1 tot 6
+
+#kable(dt, "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "float_right")
+# https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
+
+kable(dt, "html") %>%
+  kable_styling("striped", full_width = F) %>%
+  column_spec(5:6, bold = T) %>% #kolom 5 en 6 is bold
+  row_spec(3:5, bold = T, color = "white", background = "#D7261E") #rye3 tot 5 is rooi agter wit text en bold
+                                                                 
+
+
+```
+
 ###2. K-point energy convergence
 ###3. Determine surface energies
    + This tutorials show the basic principals for calculating surface characteristics [@surf1] [@surf2]
 
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
