@@ -3,8 +3,9 @@ title: "A DFT study to development a SiO2 mesoporous surface model"
 author: "Ciellie Jansen van Vuuren"
 date: "6/12/2017"
 output:
-  html_document: default
   word_document: default
+  html_document: default
+  pdf_document: default
 csl: oxford-university-press-scimed-numeric.csl
 bibliography: library.bib
 ---
@@ -13,7 +14,7 @@ bibliography: library.bib
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#Introduction
+# Introduction
 
 Grubbs catalysts for alkene metathesis have a vast range of advantages, but the fact that these catalysts are homogeneous makes extraction of the catalyst from the post-reaction mixtures very difficult. Because of cost implications, the re-use of the catalyst became very important [1].[@RN33]
 
@@ -25,9 +26,9 @@ The first step in modelling a SBA-15 or MCM-41 mesoporous surface is to create a
 
 To do surface calculations it became very difficult, using the amorphous SiO2 bulk. We decide to use a crystalline 3X3X3 SiO2 bulk, using VASP 5.3. An Ab Initio Molecular Dynamics study will be done on all surfaces using VASP 5.3. A comparison between the amorphous and crystalline surfaces will be discussed
 
-#Experimental work 2017
+# Experimental work 2017
 
-###1. Amorphous SiO~2~ Bulk
+### 1. Amorphous SiO~2~ Bulk
 #### Method:
 A 3x3x3 alpha-quartz, spacegroup 180, super-cell was built in the Materials Studio
 software package.
@@ -86,16 +87,17 @@ dt <- E_step[1:10, 1:6] #rye 1 tot 10 en kolomme 1 tot 6
 #kable(dt, "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "float_right")
 # https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
 
-kable(dt, "html") %>%
+kable(dt, "latex") %>%
   kable_styling("striped", full_width = F) %>%
   column_spec(5:6, bold = T) %>% #kolom 5 en 6 is bold
-  row_spec(3:5, bold = T, color = "white", background = "#D7261E") #rye3 tot 5 is rooi agter wit text en bold
+  row_spec(3:5, bold = T, color = "white", background = "#D7261E") %>% #rye3 tot 5 is rooi agter wit text en bold
+  kable_as_image()
                                                                  
 
 
 ```
 
-###2. K-point energy convergence
-###3. Determine surface energies
+### 2. K-point energy convergence
+### 3. Determine surface energies
    + This tutorials show the basic principals for calculating surface characteristics [@surf1] [@surf2]
 
