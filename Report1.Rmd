@@ -1,10 +1,10 @@
 ---
-title: "A DFT study to development a SiO2 mesoporous surface model"
+title: "A DFT study to develop a SiO~2~ mesoporous surface model"
 author: "Ciellie Jansen van Vuuren"
 date: "6/12/2017"
 output:
-  word_document: default
   html_document: default
+  word_document: default
   pdf_document: default
 csl: oxford-university-press-scimed-numeric.csl
 bibliography: library.bib
@@ -99,5 +99,5 @@ kable(dt, "latex") %>%
 
 ### 2. K-point energy convergence
 ### 3. Determine surface energies
-   + This tutorials show the basic principals for calculating surface characteristics [@surf1] [@surf2]
+   + This tutorials show the basic principals for calculating surface characteristics
 
