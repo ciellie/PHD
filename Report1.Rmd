@@ -3,15 +3,18 @@ title: "A DFT study to develop a SiO~2~ mesoporous surface model"
 author: "Ciellie Jansen van Vuuren"
 date: "6/12/2017"
 output:
-  html_document: default
   word_document: default
-  pdf_document: default
+  pdf_document:
+    latex_engine: xelatex
+  html_document: default
 csl: oxford-university-press-scimed-numeric.csl
 bibliography: library.bib
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+E_step <- readxl::read_excel("Report1/DATA/Aneal_energies.xlsx")
+Article_data <- readxl::read_excel("Report1/DATA/Article-data.xlsx")
 ```
 
 # Introduction
@@ -62,7 +65,7 @@ Sys.setenv(TZ="Africa/Johannesburg")
 
 library(ggplot2)
 
-E_step <- readxl::read_excel("Report1/DATA/Aneal_energies.xlsx")
+#E_step <- readxl::read_excel("Report1/DATA/Aneal_energies.xlsx")
 
 mdata <- reshape2::melt(E_step, id.vars="Step", 
                       measure.vars=c("Melting", "Quenching","Anealing","Cooling"))
@@ -77,11 +80,13 @@ mdata <- reshape2::melt(E_step, id.vars="Step",
   
 ```
 
-Table acording literature
+
+
 
 ```{r table-lit, echo=FALSE}
 library(knitr)
 library(kableExtra)
+
 dt <- E_step[1:10, 1:6] #rye 1 tot 10 en kolomme 1 tot 6
 
 #kable(dt, "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "float_right")
@@ -96,8 +101,29 @@ kable(dt, "latex") %>%
 
 
 ```
+Experimental data
+
+
+```{r table-exp, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+dt <- Article_data[,-1]
+
+kable(dt[, c("deg","eV") ], row.names = TRUE, col.names = c("$\\Delta \\theta$ deg", "$\\Delta$ E")) %>%
+  kable_styling("striped", full_width = F) 
+
+
+```
+
+
+
+
+
+
+
+
+
 
 ### 2. K-point energy convergence
+
 ### 3. Determine surface energies
    + This tutorials show the basic principals for calculating surface characteristics
 
