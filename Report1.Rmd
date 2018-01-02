@@ -3,22 +3,38 @@ title: "A DFT study to develop a SiO~2~ mesoporous surface model"
 author: "Ciellie Jansen van Vuuren"
 date: "6/12/2017"
 output:
-  word_document: default
   pdf_document:
     latex_engine: xelatex
-  html_document: default
+    keep_tex: true
+  word_document:
+    fig_caption: yes
+    fig_width: 5
+    reference_docx: Style.docx
+    toc: true
+  html_document:
+    fig_caption: yes
+graphics: yes
+header-includes:
+  - \usepackage{ragged2e}
 csl: oxford-university-press-scimed-numeric.csl
 bibliography: library.bib
 ---
 
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 E_step <- readxl::read_excel("Report1/DATA/Aneal_energies.xlsx")
 Article_data <- readxl::read_excel("Report1/DATA/Article-data.xlsx")
+Bond_angle <- readxl::read_excel("Report1/DATA/bond-angle.xlsx")
+E_mq <- readxl::read_excel("Report1/DATA/energy-mQ.xlsx")
+library(reedtemplates)
+library(chemistr)
+library(png)
+library(captioner)
+
 ```
 
 # Introduction
-
 Grubbs catalysts for alkene metathesis have a vast range of advantages, but the fact that these catalysts are homogeneous makes extraction of the catalyst from the post-reaction mixtures very difficult. Because of cost implications, the re-use of the catalyst became very important [1].[@RN33]
 
 A heterogeneous catalyst can be a solution to the above-mentioned issue. In general, the activity and selectivity of heterogeneous catalysts are lower than homogeneous catalysts, but the advantage of separation, recovery and recycling outweigh these shortcomings.
@@ -59,7 +75,23 @@ included:
  
  + Band Gap
  
+##### .
 #### Results
+```{r table-lit, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(knitr)
+options(kableExtra.latex.load_package = FALSE)
+library(kableExtra)
+
+dt <- E_step[1:10, 1:6] #rye 1 tot 10 en kolomme 1 tot 6
+
+#kable(dt, "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "float_right")
+# https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
+
+ kable(dt, booktabs = T) %>% 
+   kable_styling(latex_options = "striped") %>%
+   row_spec(3:5, bold = T, color = "white", background = "red") 
+```
+
 ```{r step_energy, echo=FALSE}
 Sys.setenv(TZ="Africa/Johannesburg")
 
@@ -69,8 +101,8 @@ library(ggplot2)
 
 mdata <- reshape2::melt(E_step, id.vars="Step", 
                       measure.vars=c("Melting", "Quenching","Anealing","Cooling"))
-#Her organiseer die tabel om die plot te trek trek uit E_step id is die groep en dan die res wat gemeet word
-#Kyk na mdata en doen dat die graviek onthou vir lyn moet daar 'n groep wees en die kleur Hierdie is slegs nodig vir baie lyne op een grafiek
+#Hier organiseer die tabel om die plot te trek. Trek uit E_step id.vars is die groep en dan die res wat gemeet word
+#Kyk na mdata en doen dan die grafiek. Onthou vir lyn grafieke moet daar 'n groep wees en die kleur. Hierdie is slegs nodig vir baie lyne op een grafiek
  
  ggplot(data =  mdata, aes(x = variable, y = value, group=Step, color=Step)) + geom_line() + 
   labs(title = "Energy per Anealing step", x = "Method", y = "Energy") + theme_bw() +
@@ -80,35 +112,68 @@ mdata <- reshape2::melt(E_step, id.vars="Step",
   
 ```
 
+Energy diviation during the melt and quenching steps
 
-
-
-```{r table-lit, echo=FALSE}
+```{r message=FALSE, warning=FALSE, paged.print=FALSE, echo=FALSE}
 library(knitr)
+options(kableExtra.latex.load_package = FALSE)
 library(kableExtra)
+dt <- E_mq[-1,]  #data.frame
+#str(dt) Get the structure om die kolom name te kry
 
-dt <- E_step[1:10, 1:6] #rye 1 tot 10 en kolomme 1 tot 6
-
-#kable(dt, "html") %>% kable_styling(bootstrap_options = "striped", full_width = F, position = "float_right")
-# https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
-
-kable(dt, "latex") %>%
-  kable_styling("striped", full_width = F) %>%
-  column_spec(5:6, bold = T) %>% #kolom 5 en 6 is bold
-  row_spec(3:5, bold = T, color = "white", background = "#D7261E") %>% #rye3 tot 5 is rooi agter wit text en bold
-  kable_as_image()
-                                                                 
-
+kable(dt[, c("X__1","Melting","Quenching","Anealing","Cooling") ], row.names = FALSE, col.names = c("Step","Melting", "Quenching","Anealing", "Cooling"), booktabs = T) %>%
+   kable_styling(latex_options = "striped") %>%
+  row_spec(2:3, bold = T, color = "white", background = "red")
 
 ```
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE, echo=FALSE}
+library(ggplot2)
+
+
+mdata <- reshape2::melt(E_mq, id.vars="X__1", 
+                      measure.vars=c("Melting", "Quenching"))
+ 
+ ggplot(data =  mdata, aes(x = X__1, y = value, group=variable, color=variable)) + geom_line() + 
+  labs(title = "Energy Diviation for Melting and Quenching", x = "Method", y = expression(Delta*"E")) + theme_bw() +
+  theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 90, hjust = 0.5, vjust = 0.5),
+        axis.text.y = element_text(colour = "grey20", size = 12),
+        text = element_text(size = 11))
+```
+
+
+
+
+Bond Angle diviation
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE, echo=FALSE}
+library(knitr)
+options(kableExtra.latex.load_package = FALSE)
+library(kableExtra)
+
+dt <- Bond_angle[]  #data.frame
+
+kable(dt[, c("Step","Melt","Quench","Anneal","Cool") ], row.names = FALSE, col.names = c("Step","Melting", "Quenching","Annealing", "Cooling"), booktabs = T) %>%
+   kable_styling(latex_options = "striped") %>%
+  row_spec(2:3, bold = T, color = "white", background = "red")
+
+```
+
 Experimental data
 
 
-```{r table-exp, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-dt <- Article_data[,-1]
+```{r table-exp, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE, echo=FALSE}
+library(knitr)
+options(kableExtra.latex.load_package = FALSE)
+library(kableExtra)
+library(magick)
 
-kable(dt[, c("deg","eV") ], row.names = TRUE, col.names = c("$\\Delta \\theta$ deg", "$\\Delta$ E")) %>%
-  kable_styling("striped", full_width = F) 
+dt <- Article_data[]
+
+kable(dt[, c("X__1","deg","eV") ], row.names = TRUE, col.names = c("Info","$\\Delta \\theta$ deg", "$\\Delta$ E"), booktabs = T) %>%
+  row_spec(1, bold = T) 
+
+   
 
 
 ```
@@ -117,10 +182,19 @@ kable(dt[, c("deg","eV") ], row.names = TRUE, col.names = c("$\\Delta \\theta$ d
 
 
 
+```{r foo2, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width='90%'}
+# All defaults
+include_graphics("Report1/DATA/amorph-pics.png")
+
+fig_nums <- captioner()
+fig_nums("amorph1", "Literature  vs Experimental structional results", display = FALSE)
+``` 
 
 
+###### `r fig_nums("amorph1")`[@RN96]
 
 
+The experimental and literature structure images corolate as seen in (`r fig_nums("amorph1", display = "cite")`)[@RN96]
 
 ### 2. K-point energy convergence
 
