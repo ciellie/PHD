@@ -3,14 +3,14 @@ title: "A DFT study to develop a SiO~2~ mesoporous surface model"
 author: "Ciellie Jansen van Vuuren"
 date: "6/12/2017"
 output:
-  pdf_document:
-    latex_engine: xelatex
-    keep_tex: true
   word_document:
     fig_caption: yes
     fig_width: 5
     reference_docx: Style.docx
     toc: true
+  pdf_document:
+    latex_engine: xelatex
+    keep_tex: true
   html_document:
     fig_caption: yes
 graphics: yes
@@ -31,6 +31,8 @@ library(reedtemplates)
 library(chemistr)
 library(png)
 library(captioner)
+fig_nums <- captioner()
+table_nums <- captioner(prefix = "Table")
 
 ```
 
@@ -76,7 +78,8 @@ included:
  + Band Gap
  
 ##### .
-#### Results
+### Results
+
 ```{r table-lit, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 library(knitr)
 options(kableExtra.latex.load_package = FALSE)
@@ -90,7 +93,11 @@ dt <- E_step[1:10, 1:6] #rye 1 tot 10 en kolomme 1 tot 6
  kable(dt, booktabs = T) %>% 
    kable_styling(latex_options = "striped") %>%
    row_spec(3:5, bold = T, color = "white", background = "red") 
+
+ table_nums(name = "amorph-t1", caption = "Amorpious structure -Experimental steps.", display = FALSE)
 ```
+
+###### `r table_nums("amorph-t1")`
 
 ```{r step_energy, echo=FALSE}
 Sys.setenv(TZ="Africa/Johannesburg")
@@ -109,10 +116,16 @@ mdata <- reshape2::melt(E_step, id.vars="Step",
   theme(axis.text.x = element_text(colour = "grey20", size = 12, angle = 90, hjust = 0.5, vjust = 0.5),
         axis.text.y = element_text(colour = "grey20", size = 12),
         text = element_text(size = 11))
+ 
+fig_nums("amorph2", "Energy per experemental step", display = FALSE)
   
 ```
 
-Energy diviation during the melt and quenching steps
+###### `r fig_nums("amorph2")`
+
+
+#### Energy diviation during the melt and quenching steps
+
 
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE, echo=FALSE}
 library(knitr)
@@ -186,7 +199,7 @@ kable(dt[, c("X__1","deg","eV") ], row.names = TRUE, col.names = c("Info","$\\De
 # All defaults
 include_graphics("Report1/DATA/amorph-pics.png")
 
-fig_nums <- captioner()
+
 fig_nums("amorph1", "Literature  vs Experimental structional results", display = FALSE)
 ``` 
 
