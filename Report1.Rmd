@@ -16,7 +16,7 @@ output:
 graphics: yes
 header-includes:
   - \usepackage{ragged2e}
-csl: oxford-university-press-scimed-numeric.csl
+csl: harvard-north-west-university.csl
 bibliography: library.bib
 ---
 
