@@ -3,21 +3,21 @@ title: "SiO2-Surface"
 author: "Ciellie Jansen van Vuuren"
 date: "3/1/2018"
 output:
-  html_document:
-    fig_caption: yes
   word_document:
     fig_caption: yes
     fig_width: 5
-    reference_docx: Style.docx
+    reference_docx: ../StyleRef/Style.docx
     toc: true
+  html_document:
+    fig_caption: yes
   pdf_document:
     latex_engine: xelatex
     keep_tex: true
 graphics: yes
 header-includes:
   - \usepackage{ragged2e}
-csl: harvard-north-west-university.csl
-bibliography: library.bib
+csl: ../StyleRef/harvard-north-west-university.csl
+bibliography: ../StyleRef/library.bib
 ---
 
 ```{r setup, include=FALSE}
