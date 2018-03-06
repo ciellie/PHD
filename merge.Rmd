@@ -1,0 +1,47 @@
+---
+title: "Merge"
+author: "Ciellie Jansen van Vuuren"
+date: "3/2/2018"
+output:
+  word_document:
+    fig_caption: yes
+    fig_width: 5
+    reference_docx: StyleRef/Style.docx
+    toc: true
+  html_document:
+    fig_caption: yes
+  pdf_document:
+    latex_engine: xelatex
+    keep_tex: true
+graphics: yes
+header-includes:
+  - \usepackage{ragged2e}
+  - \usepackage{placeins}
+csl: StyleRef/harvard-north-west-university.csl
+bibliography: StyleRef/library.bib
+editor_options: 
+  chunk_output_type: console
+
+ 
+---
+
+```{r setup3, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+Sys.setenv(TZ="Africa/Johannesburg")
+#Haal die deel uit die ander docs sodat captions reg is en numbering
+library(captioner)
+fig_nums <- captioner()
+table_nums <- captioner(prefix = "Table")
+
+```
+
+
+
+```{r child = 'Report1.RMD'}
+```
+#####
+
+
+
+```{r child = 'Article1/SiO2-surface.Rmd'}
+```

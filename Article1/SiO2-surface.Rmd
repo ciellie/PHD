@@ -1,7 +1,7 @@
 ---
 title: "A DFT study to charactirized a suitable SiO~2~ messoporius support surface"
 author: "Ciellie Jansen van Vuuren"
-date: "3/1/2018"
+date: "`r format(Sys.time(), '%d/%m/%Y')`"
 output:
   word_document:
     fig_caption: yes
@@ -16,6 +16,7 @@ output:
 graphics: yes
 header-includes:
   - \usepackage{ragged2e}
+  - \usepackage{placeins}
 csl: ../StyleRef/harvard-north-west-university.csl
 bibliography: ../StyleRef/library.bib
 editor_options: 
@@ -30,9 +31,12 @@ library(chemistr)
 library(png)
 library(jpeg)
 library(captioner)
+library(captioner)
 fig_nums <- captioner()
 table_nums <- captioner(prefix = "Table")
 ```
+
+#####
 
 # Abstract
 
@@ -52,7 +56,7 @@ There are three types of inorganic supports available, which is categorized by t
 2. Inorganic mesoporous support materials have pore sizes in the range of 2-15 nm, e.g. MCM-41, SBA-15 and Aerogels; and 
 3. Inorganic macroporous support materials have pore sizes greater than 50 nm, e.g. glasses. [@RN44], [@RN90] 
 
-Although microporous and macroporious support materials have the ability to be used as heterogeneous support, it doesn’t have an industrial appeal yet [6, 7]. Therefore the focus is on mesoporous support materials. Since the successful synthesis of mesoporous materials by Mobil in 1992, the research field in using and synthesizing mesoporious materials as support materials for heterogeneous catalytic reactions has grown significantly. The original synthesis of mesoporous support material was defined as the M41S family containing hexagonal MCM-41, cubic MCM-48 and lamellar MCM-50 structures. A more visual representation of the different structures can be seen in `r fig_nums("intro1", display = "cite")`
+Although microporous and macroporious support materials have the ability to be used as heterogeneous support, it doesn’t have an industrial appeal yet [@RN44],[@RN90]. Therefore the focus is on mesoporous support materials. Since the successful synthesis of mesoporous materials by Mobil in 1992, the research field in using and synthesizing mesoporious materials as support materials for heterogeneous catalytic reactions has grown significantly. The original synthesis of mesoporous support material was defined as the M41S family containing hexagonal MCM-41, cubic MCM-48 and lamellar MCM-50 structures. A more visual representation of the different structures can be seen in `r fig_nums("intro1", display = "cite")`
 
 ```{r Image: Mesoporous structures, echo=FALSE, fig.align = 'center', message=FALSE, warning=FALSE, out.width='90%'}
 
