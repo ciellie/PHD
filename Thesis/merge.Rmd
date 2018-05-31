@@ -3,26 +3,27 @@ title: "Merge"
 author: "Ciellie Jansen van Vuuren"
 date: "3/2/2018"
 output:
-  word_document:
-    fig_caption: yes
-    fig_width: 5
-    reference_docx: StyleRef/Style.docx
-    toc: true
-  html_document:
-    fig_caption: yes
   pdf_document:
     latex_engine: xelatex
     keep_tex: true
+    fig_caption: yes
+    number_sections: yes
+    
+  html_document:
+    fig_caption: yes
+  word_document:
+    fig_caption: yes
+    fig_width: 5
+    reference_docx: ../StyleRef/Style.docx
+    toc: true
 graphics: yes
 header-includes:
   - \usepackage{ragged2e}
   - \usepackage{placeins}
-csl: StyleRef/harvard-north-west-university.csl
-bibliography: StyleRef/library.bib
+csl: ../StyleRef/harvard-north-west-university.csl
+bibliography: ../StyleRef/library.bib
 editor_options: 
   chunk_output_type: console
-
- 
 ---
 
 ```{r setup3, include=FALSE}
@@ -43,5 +44,7 @@ table_nums <- captioner(prefix = "Table")
 
 
 
-```{r child = 'Article1/SiO2-surface.Rmd'}
+```{r child = 'SiO2-surface.Rmd'}
 ```
+
+\listoffigures
