@@ -3,17 +3,17 @@ title: "A DFT study to charactirized a suitable SiO~2~ messoporius support surfa
 author: "Ciellie Jansen van Vuuren"
 date: "`r format(Sys.time(), '%d/%m/%Y')`"
 output:
-  html_document:
+  word_document:
     fig_caption: yes
+    fig_width: 5 
+    fig_height: 3 
+    reference_docx: ../StyleRef/Style.docx
+    toc: true
   pdf_document:
     latex_engine: xelatex
     keep_tex: true
-  word_document:
+  html_document:
     fig_caption: yes
-    fig_width: 3 
-    fig_height: 2 
-    reference_docx: ../StyleRef/Style.docx
-    toc: true
 graphics: yes
 header-includes:
   - \usepackage{ragged2e}
@@ -86,7 +86,7 @@ The surface of mesoporous support materials are amorphous and contain accessible
 
 
 
-```{r Image:Silanol_groups, echo=FALSE, fig.align='center', fig.cap=intro2_cap, fig.width=1, message=FALSE, warning=FALSE, paged.print=TRUE, out.width='90%'}
+```{r Image:Silanol_groups, echo=FALSE, fig.align='center', fig.cap=intro2_cap, fig.width=1, message=FALSE, warning=FALSE, paged.print=TRUE, out.width='100%'}
    knitr::include_graphics("Data/Images/Silanol_groups.jpg")
 
 intro2_cap <- fig_nums(name = "intro2", caption = "Different silanol groups on the surface of a silica support: (a) single, (b) hydrogen bonded and (c) geminal silanol groups \\[@RN75]", display = FALSE)
@@ -104,7 +104,7 @@ The $\alpha$-Quartz space group 180 unit cell, obtained from Pearson’s databas
 However, it is important to keep the effect of a dipole moment perpendicular to the surface in mind before cutting the bulk. If the surface is charged e.g. a dipole is present perpendicular to the surface, this surface can only be stabilized with substantial reconstruction. Therefore it is important to have a neutral surface layer, with an equal number of anions and cations on each plane. Metadise was used to cut the bulk structure into three neutral surfaces with miller indexes 100, 110 and 200 accordingly.
 
 
-```{r Graph:millerplanes, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE,out.width='90%'}
+```{r Graph:millerplanes, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE,out.width='100%'}
 mplane <- read.csv("DATA/Snyvlakke.csv", sep=";")
 
 Sys.setenv(TZ="Africa/Johannesburg")
@@ -125,12 +125,34 @@ fig_nums("mplane", "Energy per Miller Plane", display = FALSE)
 ## Determine the ideal number of surface layers
 To determine the ideal surface thickness we need to increase the surface thickness by adding surface layers and keep the vacuum gap the same over the different surfaces. A 18Å vacuum gap was used for all calculations because this is the minimum gap size required for the coordination of the Puk Grubbs 2 molecule, that will be performed in a later study. 
 
-In the results, 1 and 2 surface layers have almost the same energy, 3 layers never reach convergence and 4 layers result was out of bound. From this results, we conclude that the vacuum gap has a definite influence on the surface stability. From the literature, was learned that there is a relation between the surface thickness and the vacuum gap and it is approximately 1:4.[7]  The calculation results obtained from this study have shown that in keeping the vacuum gap size to 18A the relation between the surface thickness and vacuum gap size was between 1:1.4 and 1:0.7. 
+```{r Graph:fixgap, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE,out.width='100%'}
 
-Instead of keeping the vacuum gap size the same for all calculations it is more feesable to keep the relation between the surface thickness and vacuum gap the same. The different energy calculations for the different surface thickness were recalculated with a relation of slab thickness size to vacuum gap size of 1:1.4. In the next section, the relation between the slab thickness size was changed and the number of surface layers will be kept the same, that will determine the ideal vacuum gap size ratio.
+fgap <- read.csv("Data/fixedgap.csv", sep=";")
+
+fgap <- transform(fgap, eatom = (Energy / Num_atoms))
 
 
-```{r Graph:layers, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE,out.width='90%'}
+Sys.setenv(TZ="Africa/Johannesburg")
+
+library(ggplot2)
+
+#Net een lyn grafiek
+ 
+ ggplot(fgap, aes(x=Layers,y=eatom,group=1 ))+geom_line()+geom_point(size=3)+labs(title = "Energy per Number of surface layers ", x = "Layers", y = "Energy per atom") + theme_bw()
+
+ 
+fig_nums("fixgap", "Energy per Surface layer for a fixed gap size", display = FALSE)
+
+```
+
+####### `r fig_nums('fixgap')`
+
+In the results see graph `r fig_nums("fixgap", display = "cite")` , 1 and 2 surface layers have almost the same energy, 3 layers never reach convergence and 4 layers result was out of bound. From this results, we conclude that the vacuum gap has a definite influence on the surface stability. From the literature, was learned that there is a relation between the surface thickness and the vacuum gap and it is approximately 1:3.[7]  The calculation results obtained from this study have shown that in keeping the vacuum gap size to 18A the relation between the surface thickness and vacuum gap size was between 1:1.4 and 1:0.7. 
+
+Instead of keeping the vacuum gap size the same for all calculations it is more feesable to keep the relation between the surface thickness and vacuum gap the same. The different energy calculations for the different surface thickness were recalculated with a relation of slab thickness size to vacuum gap size of 1:1.4. 
+
+
+```{r Graph:layers, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE,out.width='100%'}
 
 lae <- read.csv("Data/lae.csv", sep=";")
 
@@ -151,6 +173,33 @@ fig_nums("layer", "Energy per Surface layer", display = FALSE)
 ```
 
 ####### `r fig_nums('layer')`
+
+From the the graph `r fig_nums("layer", display = "cite")` we can see that a 2 layer surface has  the lowest energy, but the 0.3 energy difference between 1 and 2 layers and the time to complete a calculation for a surface layer of 13A and 26A is a differance of 48H and 120H. If we keep the calculation time and the fact that the largest surface layer used in literature is 12A, the calculations that will folow will use only one surface layer. 
+
+## Determine the ideal surface thickness and vacuum gap relation
+In this section, the relation between the slab thickness size and the vacume gap changed and the number of surface layers will be kept the same, that will determine the ideal vacuum gap size ratio.
+
+```{r Graph:gap-rel, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE,out.width='100%'}
+
+grel <- read.csv("Data/Gap-relation.csv", sep=";")
+
+
+Sys.setenv(TZ="Africa/Johannesburg")
+
+library(ggplot2)
+
+#Net een lyn grafiek
+ 
+ ggplot(grel, aes(x=Relation,y=Energy,group=1 ))+geom_line()+geom_point(size=3)+labs(title = "Energy per vacume gap, surface layer relation ", x = "Relation", y = "Energy for 1 layer") + theme_bw()
+
+ 
+fig_nums("gap-rel", "Vacume Gap, Surface thickness relation", display = FALSE)
+
+```
+
+####### `r fig_nums('gap-rel')`
+
+In correlation with literature a vacume gap , surface thickness relation of 1:3 was espected as the the ideal ratio. As seen from the results `r fig_nums("gap-rel", display = "cite")` a relation of 1:2.8 was calculated, and is inbound with literature
 
 # Results and discussion
 

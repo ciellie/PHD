@@ -3,28 +3,28 @@ title: "A DFT study to develop a SiO~2~ mesoporous surface model"
 author: "Ciellie Jansen van Vuuren"
 date: "6/12/2017"
 output:
-  pdf_document:
-    latex_engine: xelatex
-    keep_tex: true
   html_document:
     fig_caption: yes
   word_document:
     fig_caption: yes
     fig_width: 5
-    reference_docx: StyleRef/Style.docx
+    reference_docx: Style.docx
     toc: true
+  pdf_document:
+    latex_engine: xelatex
+    keep_tex: true
 graphics: yes
 header-includes:
   - \usepackage{ragged2e}
-csl: StyleRef/harvard-north-west-university.csl
-bibliography: StyleRef/library.bib
+csl: harvard-north-west-university.csl
+bibliography: library.bib
 ---
 
 -------
 
 
 
-```{r setup1, include=FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 E_step <- readxl::read_excel("Report1/DATA/Aneal_energies.xlsx")
 Article_data <- readxl::read_excel("Report1/DATA/Article-data.xlsx")
@@ -42,6 +42,7 @@ library(png)
 library(captioner)
 fig_nums <- captioner()
 table_nums <- captioner(prefix = "Table")
+
 ```
 
 # Introduction
@@ -203,7 +204,7 @@ fig_nums("exp", "Literature  vs Experimental structional results", display = FAL
 ### 4. Conclusion
 
 + The bond angle deviation shown in (`r table_nums("bond-angle", display = "cite")`) can be related to experimental data obtained as seen in (`r table_nums("exp", display = "cite")`). 
-+ At 4000K the $\Delta$Ε correlate with the experimental values obtained in (`r table_nums("exp", display = "cite")`).
++ At 4000K the $\Delta$?? correlate with the experimental values obtained in (`r table_nums("exp", display = "cite")`).
 
 ##### .
 
