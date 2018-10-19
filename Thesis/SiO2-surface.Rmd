@@ -3,17 +3,17 @@ title: "A DFT study to charactirized a suitable SiO~2~ messoporius support surfa
 author: "Ciellie Jansen van Vuuren"
 date: "`r format(Sys.time(), '%d/%m/%Y')`"
 output:
+  html_document:
+    fig_caption: yes
+  pdf_document:
+    latex_engine: xelatex
+    keep_tex: true
   word_document:
     fig_caption: yes
     fig_width: 5 
     fig_height: 3 
     reference_docx: ../StyleRef/Style.docx
     toc: true
-  pdf_document:
-    latex_engine: xelatex
-    keep_tex: true
-  html_document:
-    fig_caption: yes
 graphics: yes
 header-includes:
   - \usepackage{ragged2e}
@@ -149,33 +149,6 @@ fig_nums("fixgap", "Energy per Surface layer for a fixed gap size", display = FA
 
 In the results see graph `r fig_nums("fixgap", display = "cite")` , 1 and 2 surface layers have almost the same energy, 3 layers never reach convergence and 4 layers result was out of bound. From this results, we conclude that the vacuum gap has a definite influence on the surface stability. From the literature, was learned that there is a relation between the surface thickness and the vacuum gap and it is approximately 1:3.[7]  The calculation results obtained from this study have shown that in keeping the vacuum gap size to 18A the relation between the surface thickness and vacuum gap size was between 1:1.4 and 1:0.7. 
 
-Instead of keeping the vacuum gap size the same for all calculations it is more feesable to keep the relation between the surface thickness and vacuum gap the same. The different energy calculations for the different surface thickness were recalculated with a relation of slab thickness size to vacuum gap size of 1:1.4. 
-
-
-```{r Graph:layers, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE,out.width='100%'}
-
-lae <- read.csv("Data/lae.csv", sep=";")
-
-lae <- transform(lae, eatom = (Energy / num.atoms))
-
-
-Sys.setenv(TZ="Africa/Johannesburg")
-
-library(ggplot2)
-
-#Net een lyn grafiek
- 
- ggplot(lae, aes(x=Layers,y=eatom,group=1 ))+geom_line()+geom_point(size=3)+labs(title = "Energy per Number of surface layers ", x = "Layers", y = "Energy per atom") + theme_bw()
-
- 
-fig_nums("layer", "Energy per Surface layer", display = FALSE)
-
-```
-
-####### `r fig_nums('layer')`
-
-From the the graph `r fig_nums("layer", display = "cite")` we can see that a 2 layer surface has  the lowest energy, but the 0.3 energy difference between 1 and 2 layers and the time to complete a calculation for a surface layer of 13A and 26A is a differance of 48H and 120H. If we keep the calculation time and the fact that the largest surface layer used in literature is 12A, the calculations that will folow will use only one surface layer. 
-
 ## Determine the ideal surface thickness and vacuum gap relation
 In this section, the relation between the slab thickness size and the vacume gap changed and the number of surface layers will be kept the same, that will determine the ideal vacuum gap size ratio.
 
@@ -200,6 +173,35 @@ fig_nums("gap-rel", "Vacume Gap, Surface thickness relation", display = FALSE)
 ####### `r fig_nums('gap-rel')`
 
 In correlation with literature a vacume gap , surface thickness relation of 1:3 was espected as the the ideal ratio. As seen from the results `r fig_nums("gap-rel", display = "cite")` a relation of 1:2.8 was calculated, and is inbound with literature
+
+Instead of keeping the vacuum gap size the same for all calculations it is more feesable to keep the relation between the surface thickness and vacuum gap the same. The different energy calculations for the different surface thickness were recalculated with a relation of slab thickness size to vacuum gap size of 1:1.4. 
+
+
+```{r Graph:layers, include=TRUE, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE,out.width='100%'}
+
+lae <- read.csv("Data/lae.csv", sep=";")
+
+lae <- transform(lae, eatom = (Energy / num.atoms))
+
+
+Sys.setenv(TZ="Africa/Johannesburg")
+
+library(ggplot2)
+
+#Net een lyn grafiek
+ 
+ ggplot(lae, aes(x=Layers,y=eatom,group=1))+geom_line()+geom_point(size=3)+labs(title = "Energy per Number of surface layers ", x = "Layers", y = "Energy per atom") + theme_bw()
+
+ 
+fig_nums("layer", "Energy per Surface layer", display = FALSE)
+
+```
+
+####### `r fig_nums('layer')`
+
+From the the graph `r fig_nums("layer", display = "cite")` we can see that a 2 layer surface has  the lowest energy, but the 0.3 energy difference between 1 and 2 layers and the time to complete a calculation for a surface layer of 13A and 26A is a differance of 48H and 120H. If we keep the calculation time and the fact that the largest surface layer used in literature is 12A, the calculations that will folow will use only one surface layer. 
+
+
 
 # Results and discussion
 
